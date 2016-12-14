@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title></title>
+    <link rel="stylesheet" href="assets/css/reset.css">
+    <script src="https://code.jquery.com/jquery-2.2.3.js" integrity="sha256-laXWtGydpwqJ8JA+X9x2miwmaiKhn8tVmOVEigRNtP4=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <script src="https://www.gstatic.com/firebasejs/3.6.4/firebase.js"></script>
+    <meta name="viewport" content="width=device-width">
+</head>
+
+<body>
+    <div class="container">
+        <div class="jumbotron">
+            <h1>Rock, Paper, Scissors!</h1>
+        </div>
+
+        <div class="row" id="topRow">
+            <form id="userName-form">
+                <input type="text" class="form-control" id="userName-input" placeholder="Enter Your Name">
+            </form>
+            <button class="btn btn-default" id="userName" type="submit">Start</button>
+        </div>
+
+        <div class="row" id="instructionsRow">
+        </div>
+
+        <div class="row" id="gameRow">
+
+          <div id="leftBox">
+          </div>
+
+          <div id="middleBox">
+          </div>
+
+          <div id="rightBox">
+          </div>
+
+        </div>
+
+        <div class="row" id="chatRow">
+          <div id="chatBox">
+          </div>
+        </div>
+
+        <div class="row" id="chatEnter">
+            <form id="chat-form">
+                <input type="text" class="form-control" id="chat-input">
+            </form>
+            <button class="btn btn-default" id="chatSubmit" type="submit">Send</button>
+        </div>
+
+        <div class="row" id="footer">
+        </div>
+
+
+    </div>
+
+    <script src="assets/js/app.js"></script>
+</body>
+
+</html>

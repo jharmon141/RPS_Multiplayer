@@ -1,0 +1,84 @@
+.jumbotron {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+form {
+  width: 25%;
+  display: flex;
+  justify-content: center;
+}
+
+.btn {
+  display: flex;
+  justify-content: center;
+  width: 10%;
+  margin-left: 10px;
+}
+
+#topRow {
+  display: flex;
+  justify-content: center;
+}
+
+#leftBox {
+  display: flex;
+  justify-content: center;
+  width: 30%;
+  height: 300px;
+  border: 3px solid black;
+  margin-right: 20px;
+}
+
+#middleBox {
+  display: flex;
+  justify-content: center;
+  width: 30%;
+  height: 300px;
+  border: 3px solid black;
+  margin-right: 20px;
+  margin-left: 20px;
+}
+
+#rightBox {
+  display: flex;
+  justify-content: center;
+  width: 30%;
+  height: 300px;
+  border: 3px solid black;
+  margin-left: 20px;
+}
+
+#gameRow {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+}
+
+#chatBox {
+  width: 80%;
+  display: flex;
+  justify-content: center;
+  height: 200px;
+  border: 3px solid black;
+}
+
+#chatEnter {
+  display: flex;
+  justify-content: center;
+}
+
+#chatRow {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+  margin-bottom: 20px;
+}
+
+#chat-form {
+  width: 69%;
+}
+
+#footer {
+  margin-top: 100px;
+}
