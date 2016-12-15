@@ -18,6 +18,9 @@
   var connectionsRef = database.ref("/Players");
   var connectedRef = database.ref(".info/connected");
 
+  $("#rps1").hide();
+  $("#rps2").hide();
+
   $("#userName").on("click", function(){
     event.preventDefault();
 
@@ -28,7 +31,7 @@
           if (snap.numChildren() === 0) {
             playNum = 1;
             $("#topRow").empty();
-            setTimeout(function(){$("#topRow").append("<h2>Hi " + name + "! You're Player " + playNum + "</h2>");}, 500);
+            $("#topRow").append("<h2>Hi " + name + "! You're Player " + playNum + "</h2>");
             connectionsRef.child("1").set({
               name: name,
               losses: losses,
@@ -39,7 +42,7 @@
             playNum = 2;
             turn = 1;
             database.ref().child("turn").set(turn);
-            setTimeout(function(){$("#topRow").html("<h2>Hi " + name + "! You're Player " + playNum + "</h2>");}, 500);
+            $("#topRow").html("<h2>Hi " + name + "! You're Player " + playNum + "</h2>");
             connectionsRef.child("2").set({
               name: name,
               losses: losses,
@@ -51,6 +54,32 @@
         });
 
   });
+
+  connectionsRef.on("value", function(snap) {
+
+    if (snap.numChildren() === 1) {
+      $("#name1").html("<h2>" + snap.child("1").val().name + "</h2>");
+    } else if (snap.numChildren() === 2) {
+      $("#name1").html("<h2>" + snap.child("1").val().name + "</h2>");
+      $("#name2").html("<h2>" + snap.child("2").val().name + "</h2>");
+    }
+  });
+
+  database.ref().on("value", function(snap){
+    if (snap.val().turn === 1 && playNum === 1){
+      $("#rps1").show();
+      $("#topRow").html("<h2>It's your turn " + name + "</h2>");
+    } else if (snap.val().turn === 2 && playNum === 1){
+      $("#topRow").html("<h2>Waiting for " + snap.child("2").val().name + " to choose</h2>");
+    } else if (snap.val().turn === 2 && playNum === 2){
+      $("#rps2").show();
+      $("#topRow").html("<h2>It's your turn " + name + "</h2>");
+    } else if (snap.val().turn === 1 && playNum === 2){
+      $("#topRow").html("<h2>Waiting for " + snap.child("1").val().name + " to choose</h2>");
+    }
+  });
+
+
 
   //when a user connects to database add to connections and remove them when they disconnect
   // connectedRef.on("value", function(snap){
