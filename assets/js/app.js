@@ -52,7 +52,7 @@ $("#userName").on("click", function() {
         if (snap.numChildren() === 0) {
             playNum = 1;
             $("#topRow").empty();
-            $("#topRow").append("<h2>Hi " + name + "! You're Player " + playNum + "</h2>");
+            $("#topRow").append("<h1>Hi " + name + "! You're Player " + playNum + "</h1>");
             connectionsRef.child("1").set({
                 name: name,
                 losses: losses,
@@ -64,7 +64,7 @@ $("#userName").on("click", function() {
             playNum = 2;
             turn = 1;
             database.ref().child("turn").set(turn);
-            $("#topRow").html("<h2>Hi " + name + "! You're Player " + playNum + "</h2>");
+            $("#topRow").html("<h1>Hi " + name + "! You're Player " + playNum + "</h1>");
             connectionsRef.child("2").set({
                 name: name,
                 losses: losses,
@@ -82,53 +82,57 @@ $("#userName").on("click", function() {
 connectionsRef.on("value", function(snap) {
 
     if (snap.numChildren() === 1) {
-        $("#name1").html("<h2>" + snap.child("1").val().name + "</h2>");
-        $("#name2").html("<h2>Waiting for Player 2</h2>");
+        $("#name1").html("<h1>" + snap.child("1").val().name + "</h1>");
+        $("#name2").html("<h1>Waiting for Player 2</h1>");
     } else if (snap.numChildren() === 2) {
-        $("#name1").html("<h2>" + snap.child("1").val().name + "</h2>");
-        $("#name2").html("<h2>" + snap.child("2").val().name + "</h2>");
+        $("#name1").html("<h1>" + snap.child("1").val().name + "</h1>");
+        $("#name2").html("<h1>" + snap.child("2").val().name + "</h1>");
     }
 });
 
 database.ref().on("value", function(snap) {
 
-    $("#score1").html("<p>Wins: " + snap.child("Players/1").val().wins + " Losses: " + snap.child("Players/1").val().losses + "</p>");
-    $("#score2").html("<p>Wins: " + snap.child("Players/2").val().wins + " Losses: " + snap.child("Players/2").val().losses + "</p>");
+    //set wins and losses
+    $("#score1").html("<h3>Wins: " + snap.child("Players/1").val().wins + " Losses: " + snap.child("Players/1").val().losses + "</h3>");
+    $("#score2").html("<h3>Wins: " + snap.child("Players/2").val().wins + " Losses: " + snap.child("Players/2").val().losses + "</h3>");
+
+    //set turns
     if (playNum === 1 && snap.val().turn === 1) {
         database.ref().child("Players/1/wins").set(wins);
         database.ref().child("Players/1/losses").set(losses);
         $("#rps1").show();
         $("#rps2").hide();
-        $("#middleMessage").html("<h2>It's your turn " + name + ".</h2>");
-        $("#leftBox").css("border", "3px solid yellow");
-        $("#rightBox").css("border", "3px solid black");
+        $("#middleMessage").html("<h1>It's your turn " + name + ".</h1>");
+        $("#leftBox").css("border", "2px solid yellow");
+        $("#rightBox").css("border", "2px solid black");
         $("#rps1").css("padding-top", "0px");
         $("#rps1").html("<ul><li data='Rock'><h3>Rock</h3></li><li data='Paper'><h3>Paper</h3></li><li data='Scissors'><h3>Scissors</h3></li></ul>");
     } else if (playNum === 1 && snap.val().turn === 2) {
-        $("#middleMessage").html("<h2>Waiting for " + snap.child("Players/2").val().name + " to choose.</h2>");
-        $("#rightBox").css("border", "3px solid yellow");
-        $("#leftBox").css("border", "3px solid black");
+        $("#middleMessage").html("<h1>Waiting for " + snap.child("Players/2").val().name + " to choose.</h1>");
+        $("#rightBox").css("border", "2px solid yellow");
+        $("#leftBox").css("border", "2px solid black");
     } else if (playNum === 1 && !snap.val().turn) {
         $("#rps1").hide();
-        $("#leftBox").css("border", "3px solid black");
-        $("#topBox").html("<h2>Hi " + name + "! You're Player " + playNum + ".</h2>");
+        $("#leftBox").css("border", "2px solid black");
+        $("#topBox").html("<h1>Hi " + name + "! You're Player " + playNum + ".</h1>");
     } else if (playNum === 2 && snap.val().turn === 2) {
         $("#rps2").show();
-        $("#middleMessage").html("<h2>It's your turn " + name + ".</h2>");
-        $("#rightBox").css("border", "3px solid yellow");
-        $("#leftBox").css("border", "3px solid black");
+        $("#middleMessage").html("<h1>It's your turn " + name + ".</h1>");
+        $("#rightBox").css("border", "2px solid yellow");
+        $("#leftBox").css("border", "2px solid black");
         $("#rps2").css("padding-top", "0px");
         $("#rps2").html("<ul><li data='Rock'><h3>Rock</h3></li><li data='Paper'><h3>Paper</h3></li><li data='Scissors'><h3>Scissors</h3></li></ul>");
     } else if (playNum === 2 && snap.val().turn === 1) {
         database.ref().child("Players/2/wins").set(wins);
         database.ref().child("Players/2/losses").set(losses);
         $("#rps1").hide();
-        $("#middleMessage").html("<h2>Waiting for " + snap.child("Players/1").val().name + " to choose.</h2>");
-        $("#leftBox").css("border", "3px solid yellow");
-        $("#rightBox").css("border", "3px solid black");
+        $("#middleMessage").html("<h1>Waiting for " + snap.child("Players/1").val().name + " to choose.</h1>");
+        $("#leftBox").css("border", "2px solid yellow");
+        $("#rightBox").css("border", "2px solid black");
         $("#rps2").empty();
     }
 
+    //player selection
     $(document).on("click", "li", function() {
         if (playNum === 1) {
             userChoice1 = $(this).attr("data");
@@ -146,21 +150,26 @@ database.ref().on("value", function(snap) {
         }
     });
 
+    //user choices compared
     if (snap.val().turn === 3) {
 
-      setTimeout(resetTurn, 4000);
+        //delay reset of game
+        setTimeout(resetTurn, 4000);
 
+        //results of tie
         if (snap.child("Players/1").val().userChoice === snap.child("Players/2").val().userChoice) {
             $("#middleMessage").html("<h1>It's a Tie!</h1>");
             $("#rps1").show();
             $("#rps1").css("padding-top", "45px");
             $("#rps2").show();
             $("#rps2").css("padding-top", "45px");
-            $("#rightBox").css("border", "3px solid black");
+            $("#rightBox").css("border", "2px solid black");
             $("#rps1").html("<h1>" + snap.child("Players/1").val().userChoice + "</h1>");
             $("#rps2").html("<h1>" + snap.child("Players/2").val().userChoice + "</h1>");
             setTimeout(resetTurn, 4000);
         }
+
+        //player 1 game logic
         if (playNum === 1) {
 
             if (snap.child("Players/1").val().userChoice == "Rock" && snap.child("Players/2").val().userChoice == "Scissors") {
@@ -169,49 +178,50 @@ database.ref().on("value", function(snap) {
                 $("#rps2").show();
                 $("#rps2").css("padding-top", "45px");
                 $("#rps2").html("<h1>" + snap.child("Players/2").val().userChoice + "</h1>");
-                $("#leftBox").css("border", "6px solid green");
-                $("#rightBox").css("border", "3px solid black");
+                $("#leftBox").css("border", "4px solid green");
+                $("#rightBox").css("border", "2px solid black");
             } else if (snap.child("Players/1").val().userChoice == "Rock" && snap.child("Players/2").val().userChoice == "Paper") {
                 losses++;
                 $("#middleMessage").html("<h1>" + snap.child("Players/2").val().name + " wins!</h1>");
                 $("#rps2").show();
                 $("#rps2").css("padding-top", "45px");
                 $("#rps2").html("<h1>" + snap.child("Players/2").val().userChoice + "</h1>");
-                $("#rightBox").css("border", "6px solid green");
-                $("#leftBox").css("border", "3px solid black");
+                $("#rightBox").css("border", "4px solid green");
+                $("#leftBox").css("border", "2px solid black");
             } else if (snap.child("Players/1").val().userChoice == "Paper" && snap.child("Players/2").val().userChoice == "Scissors") {
                 losses++;
                 $("#middleMessage").html("<h1>" + snap.child("Players/2").val().name + " wins!</h1>");
                 $("#rps2").show();
                 $("#rps2").css("padding-top", "45px");
                 $("#rps2").html("<h1>" + snap.child("Players/2").val().userChoice + "</h1>");
-                $("#rightBox").css("border", "6px solid green");
-                $("#leftBox").css("border", "3px solid black");
+                $("#rightBox").css("border", "4px solid green");
+                $("#leftBox").css("border", "2px solid black");
             } else if (snap.child("Players/1").val().userChoice == "Paper" && snap.child("Players/2").val().userChoice == "Rock") {
                 wins++;
                 $("#middleMessage").html("<h1>" + snap.child("Players/1").val().name + " wins!</h1>");
                 $("#rps2").show();
                 $("#rps2").css("padding-top", "45px");
                 $("#rps2").html("<h1>" + snap.child("Players/2").val().userChoice + "</h1>");
-                $("#leftBox").css("border", "6px solid green");
-                $("#rightBox").css("border", "3px solid black");
+                $("#leftBox").css("border", "4px solid green");
+                $("#rightBox").css("border", "2px solid black");
             } else if (snap.child("Players/1").val().userChoice == "Scissors" && snap.child("Players/2").val().userChoice == "Paper") {
                 wins++;
                 $("#middleMessage").html("<h1>" + snap.child("Players/1").val().name + " wins!</h1>");
                 $("#rps2").show();
                 $("#rps2").css("padding-top", "45px");
                 $("#rps2").html("<h1>" + snap.child("Players/2").val().userChoice + "</h1>");
-                $("#leftBox").css("border", "6px solid green");
-                $("#rightBox").css("border", "3px solid black");
+                $("#leftBox").css("border", "4px solid green");
+                $("#rightBox").css("border", "2px solid black");
             } else if (snap.child("Players/1").val().userChoice == "Scissors" && snap.child("Players/2").val().userChoice == "Rock") {
                 losses++;
                 $("#middleMessage").html("<h1>" + snap.child("Players/2").val().name + " wins!</h1>");
                 $("#rps2").show();
                 $("#rps2").css("padding-top", "45px");
                 $("#rps2").html("<h1>" + snap.child("Players/2").val().userChoice + "</h1>");
-                $("#rightBox").css("border", "6px solid green");
-                $("#leftBox").css("border", "3px solid black");
+                $("#rightBox").css("border", "4px solid green");
+                $("#leftBox").css("border", "2px solid black");
             }
+          //player 2 game logic
         } else if (playNum === 2) {
 
             if (snap.child("Players/1").val().userChoice == "Rock" && snap.child("Players/2").val().userChoice == "Scissors") {
@@ -220,51 +230,50 @@ database.ref().on("value", function(snap) {
                 $("#rps1").show();
                 $("#rps1").css("padding-top", "45px");
                 $("#rps1").html("<h1>" + snap.child("Players/1").val().userChoice + "</h1>");
-                $("#leftBox").css("border", "6px solid green");
-                $("#rightBox").css("border", "3px solid black");
+                $("#leftBox").css("border", "4px solid green");
+                $("#rightBox").css("border", "2px solid black");
             } else if (snap.child("Players/1").val().userChoice == "Rock" && snap.child("Players/2").val().userChoice == "Paper") {
                 wins++;
                 $("#middleMessage").html("<h1>" + snap.child("Players/2").val().name + " wins!</h1>");
                 $("#rps1").show();
                 $("#rps1").css("padding-top", "45px");
                 $("#rps1").html("<h1>" + snap.child("Players/1").val().userChoice + "</h1>");
-                $("#rightBox").css("border", "6px solid green");
-                $("#leftBox").css("border", "3px solid black");
+                $("#rightBox").css("border", "4px solid green");
+                $("#leftBox").css("border", "2px solid black");
             } else if (snap.child("Players/1").val().userChoice == "Paper" && snap.child("Players/2").val().userChoice == "Scissors") {
                 wins++;
                 $("#middleMessage").html("<h1>" + snap.child("Players/2").val().name + " wins!</h1>");
                 $("#rps1").show();
                 $("#rps1").css("padding-top", "45px");
                 $("#rps1").html("<h1>" + snap.child("Players/1").val().userChoice + "</h1>");
-                $("#rightBox").css("border", "6px solid green");
-                $("#leftBox").css("border", "3px solid black");
+                $("#rightBox").css("border", "4px solid green");
+                $("#leftBox").css("border", "2px solid black");
             } else if (snap.child("Players/1").val().userChoice == "Paper" && snap.child("Players/2").val().userChoice == "Rock") {
                 losses++;
                 $("#middleMessage").html("<h1>" + snap.child("Players/1").val().name + " wins!</h1>");
                 $("#rps1").show();
                 $("#rps1").css("padding-top", "45px");
                 $("#rps1").html("<h1>" + snap.child("Players/1").val().userChoice + "</h1>");
-                $("#leftBox").css("border", "6px solid green");
-                $("#rightBox").css("border", "3px solid black");
+                $("#leftBox").css("border", "4px solid green");
+                $("#rightBox").css("border", "2px solid black");
             } else if (snap.child("Players/1").val().userChoice == "Scissors" && snap.child("Players/2").val().userChoice == "Paper") {
                 losses++;
                 $("#middleMessage").html("<h1>" + snap.child("Players/1").val().name + " wins!</h1>");
                 $("#rps1").show();
                 $("#rps1").css("padding-top", "45px");
                 $("#rps1").html("<h1>" + snap.child("Players/1").val().userChoice + "</h1>");
-                $("#leftBox").css("border", "6px solid green");
-                $("#rightBox").css("border", "3px solid black");
+                $("#leftBox").css("border", "4px solid green");
+                $("#rightBox").css("border", "2px solid black");
             } else if (snap.child("Players/1").val().userChoice == "Scissors" && snap.child("Players/2").val().userChoice == "Rock") {
                 wins++;
                 $("#middleMessage").html("<h1>" + snap.child("Players/2").val().name + " wins!</h1>");
                 $("#rps1").show();
                 $("#rps1").css("padding-top", "45px");
                 $("#rps1").html("<h1>" + snap.child("Players/1").val().userChoice + "</h1>");
-                $("#rightBox").css("border", "6px solid green");
-                $("#leftBox").css("border", "3px solid black");
+                $("#rightBox").css("border", "4px solid green");
+                $("#leftBox").css("border", "2px solid black");
             }
         }
-
     }
 
 });

@@ -1,6 +1,12 @@
+body {
+  font-family: 'Shadows Into Light', cursive;
+  background-image: url("../../assets/images/grid-portrait-letter-1-index.png");
+}
+
 .jumbotron {
   text-align: center;
-  margin-bottom: 50px;
+  background-color: transparent;
+  margin-bottom: 0;
 }
 
 form {
@@ -26,10 +32,11 @@ form {
 #leftBox {
   width: 30%;
   height: 300px;
-  border: 3px solid black;
+  border: 2px solid black;
   margin-right: 20px;
   position: relative;
   text-align: center;
+  padding: 5px;
 }
 
 #rps1 {
@@ -49,13 +56,14 @@ form {
 #middleBox {
   width: 30%;
   height: 300px;
-  border: 3px solid black;
+  border: 2px solid black;
   margin-right: 20px;
   margin-left: 20px;
   text-align: center;
   position: relative;
   display: flex;
   justify-content: center;
+  padding: 5px;
 }
 
 #middleMessage {
@@ -69,10 +77,11 @@ form {
 #rightBox {
   width: 30%;
   height: 300px;
-  border: 3px solid black;
+  border: 2px solid black;
   margin-right: 20px;
   position: relative;
   text-align: center;
+  padding: 5px;
 }
 
 #rps2 {
@@ -96,11 +105,13 @@ form {
 }
 
 #chatBox {
-  width: 80%;
+  width: 70%;
   display: flex;
   justify-content: center;
-  height: 200px;
-  border: 3px solid black;
+  height: 250px;
+  border: 1px solid #ccc;
+  padding: 5px;
+  background-color: white;
 }
 
 #chatEnter {
@@ -111,12 +122,12 @@ form {
 #chatRow {
   display: flex;
   justify-content: center;
-  margin-top: 50px;
+  margin-top: 70px;
   margin-bottom: 20px;
 }
 
 #chat-form {
-  width: 80%;
+  width: 70%;
 }
 
 #footer {
@@ -124,5 +135,9 @@ form {
 }
 
 li {
-  padding-bottom: 1px;
+  padding-bottom: 2px;
+}
+
+.form-control {
+  font-size: 20px;
 }
