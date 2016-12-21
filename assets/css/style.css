@@ -32,7 +32,7 @@ form {
 #leftBox {
   width: 30%;
   height: 300px;
-  border: 2px solid black;
+  border: 3px solid black;
   margin-right: 20px;
   position: relative;
   text-align: center;
@@ -56,7 +56,7 @@ form {
 #middleBox {
   width: 30%;
   height: 300px;
-  border: 2px solid black;
+  border: 3px solid black;
   margin-right: 20px;
   margin-left: 20px;
   text-align: center;
@@ -77,7 +77,7 @@ form {
 #rightBox {
   width: 30%;
   height: 300px;
-  border: 2px solid black;
+  border: 3px solid black;
   margin-right: 20px;
   position: relative;
   text-align: center;
@@ -106,12 +106,13 @@ form {
 
 #chatBox {
   width: 70%;
-  display: flex;
-  justify-content: center;
   height: 250px;
   border: 1px solid #ccc;
   padding: 5px;
   background-color: white;
+  overflow: scroll;
+  line-height: 0.4;
+  font-size: 20px;
 }
 
 #chatEnter {
@@ -135,7 +136,7 @@ form {
 }
 
 li {
-  padding-bottom: 2px;
+  padding-bottom: 3px;
 }
 
 .form-control {

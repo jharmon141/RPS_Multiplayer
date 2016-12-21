@@ -10,7 +10,8 @@ var config = {
 firebase.initializeApp(config);
 
 var database = firebase.database();
-var name = false;
+var name1 = false;
+var name2 = false;
 var userChoice1 = "";
 var userChoice2 = "";
 var losses = 0;
@@ -45,28 +46,31 @@ $("#userName").on("click", function() {
     $("#chatBox").show();
     $("#chatEnter").show();
 
-    name = $("#userName-input").val().trim();
-
     //assigns player1 and player2
     connectionsRef.on("value", function(snap) {
+
         if (snap.numChildren() === 0) {
+            name1 = $("#userName-input").val().trim();
             playNum = 1;
             $("#topRow").empty();
-            $("#topRow").append("<h1>Hi " + name + "! You're Player " + playNum + "</h1>");
+            $("#topRow").append("<h1>Hi " + name1 + "! You're Player " + playNum + "</h1>");
             connectionsRef.child("1").set({
-                name: name,
+                name: name1,
                 losses: losses,
                 wins: wins,
                 userChoice: userChoice1
             });
             connectionsRef.child("1").onDisconnect().remove();
+            database.ref().child("chat").set("Trash Talk-O-Matic 3000");
+            database.ref().child("chat").onDisconnect().remove();
         } else if (snap.numChildren() === 1 && !playNum) {
+            name2 = $("#userName-input").val().trim();
             playNum = 2;
             turn = 1;
             database.ref().child("turn").set(turn);
-            $("#topRow").html("<h1>Hi " + name + "! You're Player " + playNum + "</h1>");
+            $("#topRow").html("<h1>Hi " + name2 + "! You're Player " + playNum + "</h1>");
             connectionsRef.child("2").set({
-                name: name,
+                name: name2,
                 losses: losses,
                 wins: wins,
                 userChoice: userChoice2
@@ -76,6 +80,25 @@ $("#userName").on("click", function() {
         }
     });
 
+});
+
+//submit chat input to chat child of database
+$("#chatSubmit").on("click", function(){
+  event.preventDefault();
+  if (playNum === 1){
+    var text = name1 + ": " + $("#chat-input").val().trim();
+    database.ref().child("chat").push(text);
+  } else if (playNum === 2){
+    var text = name2 + ": " + $("#chat-input").val().trim();
+    database.ref().child("chat").push(text);
+  }
+});
+
+//add chat text to #chatBox
+database.ref().child("chat").on("child_added", function(snap){
+  $("#chatBox").append("<br><p>" + snap.val() + "</p>");
+  $('#chatBox').scrollTop($('#chatBox')[0].scrollHeight);
+  $("form").trigger("reset");
 });
 
 
@@ -102,24 +125,24 @@ database.ref().on("value", function(snap) {
         database.ref().child("Players/1/losses").set(losses);
         $("#rps1").show();
         $("#rps2").hide();
-        $("#middleMessage").html("<h1>It's your turn " + name + ".</h1>");
-        $("#leftBox").css("border", "2px solid yellow");
-        $("#rightBox").css("border", "2px solid black");
+        $("#middleMessage").html("<h1>It's your turn " + name1 + ".</h1>");
+        $("#leftBox").css("border", "3px solid yellow");
+        $("#rightBox").css("border", "3px solid black");
         $("#rps1").css("padding-top", "0px");
         $("#rps1").html("<ul><li data='Rock'><h3>Rock</h3></li><li data='Paper'><h3>Paper</h3></li><li data='Scissors'><h3>Scissors</h3></li></ul>");
     } else if (playNum === 1 && snap.val().turn === 2) {
         $("#middleMessage").html("<h1>Waiting for " + snap.child("Players/2").val().name + " to choose.</h1>");
-        $("#rightBox").css("border", "2px solid yellow");
-        $("#leftBox").css("border", "2px solid black");
+        $("#rightBox").css("border", "3px solid yellow");
+        $("#leftBox").css("border", "3px solid black");
     } else if (playNum === 1 && !snap.val().turn) {
         $("#rps1").hide();
-        $("#leftBox").css("border", "2px solid black");
-        $("#topBox").html("<h1>Hi " + name + "! You're Player " + playNum + ".</h1>");
+        $("#leftBox").css("border", "3px solid black");
+        $("#topBox").html("<h1>Hi " + name1 + "! You're Player " + playNum + ".</h1>");
     } else if (playNum === 2 && snap.val().turn === 2) {
         $("#rps2").show();
-        $("#middleMessage").html("<h1>It's your turn " + name + ".</h1>");
-        $("#rightBox").css("border", "2px solid yellow");
-        $("#leftBox").css("border", "2px solid black");
+        $("#middleMessage").html("<h1>It's your turn " + name2 + ".</h1>");
+        $("#rightBox").css("border", "3px solid yellow");
+        $("#leftBox").css("border", "3px solid black");
         $("#rps2").css("padding-top", "0px");
         $("#rps2").html("<ul><li data='Rock'><h3>Rock</h3></li><li data='Paper'><h3>Paper</h3></li><li data='Scissors'><h3>Scissors</h3></li></ul>");
     } else if (playNum === 2 && snap.val().turn === 1) {
@@ -127,8 +150,8 @@ database.ref().on("value", function(snap) {
         database.ref().child("Players/2/losses").set(losses);
         $("#rps1").hide();
         $("#middleMessage").html("<h1>Waiting for " + snap.child("Players/1").val().name + " to choose.</h1>");
-        $("#leftBox").css("border", "2px solid yellow");
-        $("#rightBox").css("border", "2px solid black");
+        $("#leftBox").css("border", "3px solid yellow");
+        $("#rightBox").css("border", "3px solid black");
         $("#rps2").empty();
     }
 
@@ -163,7 +186,7 @@ database.ref().on("value", function(snap) {
             $("#rps1").css("padding-top", "45px");
             $("#rps2").show();
             $("#rps2").css("padding-top", "45px");
-            $("#rightBox").css("border", "2px solid black");
+            $("#rightBox").css("border", "3px solid black");
             $("#rps1").html("<h1>" + snap.child("Players/1").val().userChoice + "</h1>");
             $("#rps2").html("<h1>" + snap.child("Players/2").val().userChoice + "</h1>");
             setTimeout(resetTurn, 4000);
@@ -179,7 +202,7 @@ database.ref().on("value", function(snap) {
                 $("#rps2").css("padding-top", "45px");
                 $("#rps2").html("<h1>" + snap.child("Players/2").val().userChoice + "</h1>");
                 $("#leftBox").css("border", "4px solid green");
-                $("#rightBox").css("border", "2px solid black");
+                $("#rightBox").css("border", "3px solid black");
             } else if (snap.child("Players/1").val().userChoice == "Rock" && snap.child("Players/2").val().userChoice == "Paper") {
                 losses++;
                 $("#middleMessage").html("<h1>" + snap.child("Players/2").val().name + " wins!</h1>");
@@ -187,7 +210,7 @@ database.ref().on("value", function(snap) {
                 $("#rps2").css("padding-top", "45px");
                 $("#rps2").html("<h1>" + snap.child("Players/2").val().userChoice + "</h1>");
                 $("#rightBox").css("border", "4px solid green");
-                $("#leftBox").css("border", "2px solid black");
+                $("#leftBox").css("border", "3px solid black");
             } else if (snap.child("Players/1").val().userChoice == "Paper" && snap.child("Players/2").val().userChoice == "Scissors") {
                 losses++;
                 $("#middleMessage").html("<h1>" + snap.child("Players/2").val().name + " wins!</h1>");
@@ -195,7 +218,7 @@ database.ref().on("value", function(snap) {
                 $("#rps2").css("padding-top", "45px");
                 $("#rps2").html("<h1>" + snap.child("Players/2").val().userChoice + "</h1>");
                 $("#rightBox").css("border", "4px solid green");
-                $("#leftBox").css("border", "2px solid black");
+                $("#leftBox").css("border", "3px solid black");
             } else if (snap.child("Players/1").val().userChoice == "Paper" && snap.child("Players/2").val().userChoice == "Rock") {
                 wins++;
                 $("#middleMessage").html("<h1>" + snap.child("Players/1").val().name + " wins!</h1>");
@@ -203,7 +226,7 @@ database.ref().on("value", function(snap) {
                 $("#rps2").css("padding-top", "45px");
                 $("#rps2").html("<h1>" + snap.child("Players/2").val().userChoice + "</h1>");
                 $("#leftBox").css("border", "4px solid green");
-                $("#rightBox").css("border", "2px solid black");
+                $("#rightBox").css("border", "3px solid black");
             } else if (snap.child("Players/1").val().userChoice == "Scissors" && snap.child("Players/2").val().userChoice == "Paper") {
                 wins++;
                 $("#middleMessage").html("<h1>" + snap.child("Players/1").val().name + " wins!</h1>");
@@ -211,7 +234,7 @@ database.ref().on("value", function(snap) {
                 $("#rps2").css("padding-top", "45px");
                 $("#rps2").html("<h1>" + snap.child("Players/2").val().userChoice + "</h1>");
                 $("#leftBox").css("border", "4px solid green");
-                $("#rightBox").css("border", "2px solid black");
+                $("#rightBox").css("border", "3px solid black");
             } else if (snap.child("Players/1").val().userChoice == "Scissors" && snap.child("Players/2").val().userChoice == "Rock") {
                 losses++;
                 $("#middleMessage").html("<h1>" + snap.child("Players/2").val().name + " wins!</h1>");
@@ -219,7 +242,7 @@ database.ref().on("value", function(snap) {
                 $("#rps2").css("padding-top", "45px");
                 $("#rps2").html("<h1>" + snap.child("Players/2").val().userChoice + "</h1>");
                 $("#rightBox").css("border", "4px solid green");
-                $("#leftBox").css("border", "2px solid black");
+                $("#leftBox").css("border", "3px solid black");
             }
           //player 2 game logic
         } else if (playNum === 2) {
@@ -231,7 +254,7 @@ database.ref().on("value", function(snap) {
                 $("#rps1").css("padding-top", "45px");
                 $("#rps1").html("<h1>" + snap.child("Players/1").val().userChoice + "</h1>");
                 $("#leftBox").css("border", "4px solid green");
-                $("#rightBox").css("border", "2px solid black");
+                $("#rightBox").css("border", "3px solid black");
             } else if (snap.child("Players/1").val().userChoice == "Rock" && snap.child("Players/2").val().userChoice == "Paper") {
                 wins++;
                 $("#middleMessage").html("<h1>" + snap.child("Players/2").val().name + " wins!</h1>");
@@ -239,7 +262,7 @@ database.ref().on("value", function(snap) {
                 $("#rps1").css("padding-top", "45px");
                 $("#rps1").html("<h1>" + snap.child("Players/1").val().userChoice + "</h1>");
                 $("#rightBox").css("border", "4px solid green");
-                $("#leftBox").css("border", "2px solid black");
+                $("#leftBox").css("border", "3px solid black");
             } else if (snap.child("Players/1").val().userChoice == "Paper" && snap.child("Players/2").val().userChoice == "Scissors") {
                 wins++;
                 $("#middleMessage").html("<h1>" + snap.child("Players/2").val().name + " wins!</h1>");
@@ -247,7 +270,7 @@ database.ref().on("value", function(snap) {
                 $("#rps1").css("padding-top", "45px");
                 $("#rps1").html("<h1>" + snap.child("Players/1").val().userChoice + "</h1>");
                 $("#rightBox").css("border", "4px solid green");
-                $("#leftBox").css("border", "2px solid black");
+                $("#leftBox").css("border", "3px solid black");
             } else if (snap.child("Players/1").val().userChoice == "Paper" && snap.child("Players/2").val().userChoice == "Rock") {
                 losses++;
                 $("#middleMessage").html("<h1>" + snap.child("Players/1").val().name + " wins!</h1>");
@@ -255,7 +278,7 @@ database.ref().on("value", function(snap) {
                 $("#rps1").css("padding-top", "45px");
                 $("#rps1").html("<h1>" + snap.child("Players/1").val().userChoice + "</h1>");
                 $("#leftBox").css("border", "4px solid green");
-                $("#rightBox").css("border", "2px solid black");
+                $("#rightBox").css("border", "3px solid black");
             } else if (snap.child("Players/1").val().userChoice == "Scissors" && snap.child("Players/2").val().userChoice == "Paper") {
                 losses++;
                 $("#middleMessage").html("<h1>" + snap.child("Players/1").val().name + " wins!</h1>");
@@ -263,7 +286,7 @@ database.ref().on("value", function(snap) {
                 $("#rps1").css("padding-top", "45px");
                 $("#rps1").html("<h1>" + snap.child("Players/1").val().userChoice + "</h1>");
                 $("#leftBox").css("border", "4px solid green");
-                $("#rightBox").css("border", "2px solid black");
+                $("#rightBox").css("border", "3px solid black");
             } else if (snap.child("Players/1").val().userChoice == "Scissors" && snap.child("Players/2").val().userChoice == "Rock") {
                 wins++;
                 $("#middleMessage").html("<h1>" + snap.child("Players/2").val().name + " wins!</h1>");
@@ -271,7 +294,7 @@ database.ref().on("value", function(snap) {
                 $("#rps1").css("padding-top", "45px");
                 $("#rps1").html("<h1>" + snap.child("Players/1").val().userChoice + "</h1>");
                 $("#rightBox").css("border", "4px solid green");
-                $("#leftBox").css("border", "2px solid black");
+                $("#leftBox").css("border", "3px solid black");
             }
         }
     }
