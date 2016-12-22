@@ -11,9 +11,17 @@ body {
   padding-bottom: 24px;
 }
 
+.jumbotron h1 {
+  font-size: 75px;
+}
+
 form {
   display: flex;
   justify-content: center;
+}
+
+img {
+  max-height: 75px;
 }
 
 #userName-form{
@@ -30,6 +38,16 @@ form {
 #topRow {
   display: flex;
   justify-content: center;
+}
+
+ul {
+  list-style-type: none;
+  padding-top: 40px;
+}
+
+li {
+  padding: 10px;
+  display: inline;
 }
 
 #leftBox {
@@ -139,10 +157,6 @@ form {
 
 #footer {
   margin-top: 100px;
-}
-
-li {
-  padding-bottom: 4px;
 }
 
 .form-control {
