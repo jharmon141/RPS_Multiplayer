@@ -174,7 +174,7 @@ database.ref().on("value", function(snap) {
         $("#rps2").hide();
         $("#middleMessage").html("<h1>It's your turn " + name1 + ".</h1>");
         $("#leftBox").css("border", "5px solid green");
-        $("#leftBox").css("box-shadow", "5px 5px 5px #888888");
+        $("#leftBox").css("box-shadow", "5px 10px 5px #888888");
         $("#rightBox").css("border", "5px solid black");
         $("#rightBox").css("box-shadow", "0px 0px 0px #888888");
         $("#rps1").css("padding-top", "0px");
@@ -182,7 +182,7 @@ database.ref().on("value", function(snap) {
     } else if (playNum === 1 && snap.val().turn === 2) {
         $("#middleMessage").html("<h1>Waiting for " + snap.child("Players/2").val().name + " to choose.</h1>");
         $("#rightBox").css("border", "5px solid green");
-        $("#rightBox").css("box-shadow", "5px 5px 5px #888888");
+        $("#rightBox").css("box-shadow", "5px 10px 5px #888888");
         $("#leftBox").css("border", "5px solid black");
         $("#leftBox").css("box-shadow", "0px 0px 0px #888888");
     } else if (playNum === 1 && !snap.val().turn) {
@@ -194,7 +194,7 @@ database.ref().on("value", function(snap) {
         $("#rps2").show();
         $("#middleMessage").html("<h1>It's your turn " + name2 + ".</h1>");
         $("#rightBox").css("border", "5px solid green");
-        $("#rightBox").css("box-shadow", "5px 5px 5px #888888");
+        $("#rightBox").css("box-shadow", "5px 10px 5px #888888");
         $("#leftBox").css("border", "5px solid black");
         $("#leftBox").css("box-shadow", "0px 0px 0px #888888");
         $("#rps2").css("padding-top", "0px");
@@ -204,7 +204,7 @@ database.ref().on("value", function(snap) {
         $("#rps1").hide();
         $("#middleMessage").html("<h1>Waiting for " + snap.child("Players/1").val().name + " to choose.</h1>");
         $("#leftBox").css("border", "5px solid green");
-        $("#leftBox").css("box-shadow", "5px 5px 5px #888888");
+        $("#leftBox").css("box-shadow", "5px 10px 5px #888888");
         $("#rightBox").css("border", "5px solid black");
         $("#rightBox").css("box-shadow", "0px 0px 0px #888888");
         $("#rps2").empty();
@@ -274,7 +274,7 @@ database.ref().on("value", function(snap) {
           $("#rps2").css("padding-top", "10px");
           $("#middleMessage").html("<h1>" + snap.child("Players/1").val().name + " wins!</h1>");
           $("#leftBox").css("border", "5px solid yellow");
-          $("#leftBox").css("box-shadow", "5px 5px 5px #888888");
+          $("#leftBox").css("box-shadow", "5px 10px 5px #888888");
           $("#rightBox").css("border", "5px solid black");
           $("#rightBox").css("box-shadow", "0px 0px 0px #888888");
         };
@@ -283,7 +283,7 @@ database.ref().on("value", function(snap) {
           $("#middleMessage").html("<h1>" + snap.child("Players/2").val().name + " wins!</h1>");
           $("#rps2").css("padding-top", "10px");
           $("#rightBox").css("border", "5px solid yellow");
-          $("#rightBox").css("box-shadow", "5px 5px 5px #888888");
+          $("#rightBox").css("box-shadow", "5px 10px 5px #888888");
           $("#leftBox").css("border", "5px solid black");
           $("#leftBox").css("box-shadow", "0px 0px 0px #888888");
         };
@@ -292,7 +292,7 @@ database.ref().on("value", function(snap) {
           $("#middleMessage").html("<h1>" + snap.child("Players/2").val().name + " wins!</h1>");
           $("#rps1").css("padding-top", "10px");
           $("#rightBox").css("border", "5px solid yellow");
-          $("#rightBox").css("box-shadow", "5px 5px 5px #888888");
+          $("#rightBox").css("box-shadow", "5px 10px 5px #888888");
           $("#leftBox").css("border", "5px solid black");
           $("#leftBox").css("box-shadow", "0px 0px 0px #888888");
         };
@@ -301,7 +301,7 @@ database.ref().on("value", function(snap) {
           $("#middleMessage").html("<h1>" + snap.child("Players/1").val().name + " wins!</h1>");
           $("#rps1").css("padding-top", "10px");
           $("#leftBox").css("border", "5px solid yellow");
-          $("#leftBox").css("box-shadow", "5px 5px 5px #888888");
+          $("#leftBox").css("box-shadow", "5px 10px 5px #888888");
           $("#rightBox").css("border", "5px solid black");
           $("#rightBox").css("box-shadow", "0px 0px 0px #888888");
         };
