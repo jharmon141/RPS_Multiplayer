@@ -258,7 +258,7 @@ database.ref().on("value", function(snap) {
           $("#rps2").css("padding-top", "10px");
           $("#middleMessage").html("<h1>" + snap.child("Players/1").val().name + " wins!</h1>");
           $("#leftBox").css("border", "5px solid yellow");
-          $("#leftBox").css("box-shadow", "5px 10px 5px #888888");
+          $("#leftBox").css("box-shadow", "0px 0px 0px #888888");
           $("#rightBox").css("border", "5px solid black");
           $("#rightBox").css("box-shadow", "0px 0px 0px #888888");
         };
@@ -267,7 +267,7 @@ database.ref().on("value", function(snap) {
           $("#middleMessage").html("<h1>" + snap.child("Players/2").val().name + " wins!</h1>");
           $("#rps2").css("padding-top", "10px");
           $("#rightBox").css("border", "5px solid yellow");
-          $("#rightBox").css("box-shadow", "5px 10px 5px #888888");
+          $("#rightBox").css("box-shadow", "0px 0px 0px #888888");
           $("#leftBox").css("border", "5px solid black");
           $("#leftBox").css("box-shadow", "0px 0px 0px #888888");
         };
@@ -276,7 +276,7 @@ database.ref().on("value", function(snap) {
           $("#middleMessage").html("<h1>" + snap.child("Players/2").val().name + " wins!</h1>");
           $("#rps1").css("padding-top", "10px");
           $("#rightBox").css("border", "5px solid yellow");
-          $("#rightBox").css("box-shadow", "5px 10px 5px #888888");
+          $("#rightBox").css("box-shadow", "0px 0px 0px #888888");
           $("#leftBox").css("border", "5px solid black");
           $("#leftBox").css("box-shadow", "0px 0px 0px #888888");
         };
@@ -285,7 +285,7 @@ database.ref().on("value", function(snap) {
           $("#middleMessage").html("<h1>" + snap.child("Players/1").val().name + " wins!</h1>");
           $("#rps1").css("padding-top", "10px");
           $("#leftBox").css("border", "5px solid yellow");
-          $("#leftBox").css("box-shadow", "5px 10px 5px #888888");
+          $("#leftBox").css("box-shadow", "0px 0px 0px #888888");
           $("#rightBox").css("border", "5px solid black");
           $("#rightBox").css("box-shadow", "0px 0px 0px #888888");
         };
