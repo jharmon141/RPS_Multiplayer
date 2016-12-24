@@ -23,6 +23,7 @@ var resetTurn = function() {
     database.ref().child("turn").set(1);
 };
 
+//sets userchoice image
 var chooseImg1 = function() {
     if (userChoice1 === "Rock") {
         choiceImg = "<img src='assets/images/rock.png'>";
@@ -46,11 +47,6 @@ var chooseImg2 = function() {
 var connectionsRef = database.ref("/Players");
 var connectedRef = database.ref(".info/connected");
 
-connectedRef.on("value", function(snap) {
-    if (snap.val() === false && playNum === 2) {
-        database.ref().child("chat").push(" has disconnect");
-    }
-});
 
 $("#rps1").hide();
 $("#rps2").hide();
@@ -62,7 +58,7 @@ $("#rightBox").hide();
 $("#chatBox").hide();
 $("#chatEnter").hide();
 
-
+//user registers name and the gamem initializes
 $("#userName").on("click", function() {
     event.preventDefault();
 
@@ -101,16 +97,11 @@ $("#userName").on("click", function() {
                 wins: wins,
                 userChoice: userChoice2
             });
-            // connectionsRef.child("2").onDisconnect(function(){
-            //   database.ref().child("chat").push(name2 + " has disconnected.");
-            // });
             connectionsRef.child("2").onDisconnect().remove();
             database.ref().child("turn").onDisconnect().remove();
         }
     });
-
 });
-
 
 //submit chat input to chat child of database
 $("#chatSubmit").on("click", function() {
@@ -129,14 +120,6 @@ database.ref().child("chat").on("child_added", function(snap) {
     $("#chatBox").append("<br><p>" + snap.val() + "</p>");
     $('#chatBox').scrollTop($('#chatBox')[0].scrollHeight);
     $("form").trigger("reset");
-});
-
-// database.ref().child("Players").on("child_removed", function(snap){
-//   database.ref().child("chat").push("whatevs");
-// });
-
-database.ref().child("turn").onDisconnect(function() {
-    database.ref().child("chat").push("something");
 });
 
 
@@ -159,10 +142,11 @@ database.ref().on("value", function(snap) {
     $("#score1").html("<h3>Wins: </h3>" + "<ol id='count1'></ol>");
     $("#score2").html("<h3>Wins: </h3>" + "<ol id='count2'></ol>");
 
+    //animates tally marks
     for (var i = 0; i < count1; i++){
       $("#count1").append("<li class='tally'></li>");
     }
-
+    //every fifth tally mark
     for (var j = 0; j < count2; j++){
       $("#count2").append("<li class='tally'></li>");
     }
@@ -308,7 +292,9 @@ database.ref().on("value", function(snap) {
 
         //player 1 game logic
         if (playNum === 1) {
+
             $("#rps2").show();
+
             if (snap.child("Players/1").val().userChoice == "Rock" && snap.child("Players/2").val().userChoice == "Scissors") {
                 wins++;
                 play1Wins();
@@ -327,6 +313,7 @@ database.ref().on("value", function(snap) {
             }
             //player 2 game logic
         } else if (playNum === 2) {
+
           $("#rps1").show();
 
             if (snap.child("Players/1").val().userChoice == "Rock" && snap.child("Players/2").val().userChoice == "Scissors") {
@@ -347,5 +334,4 @@ database.ref().on("value", function(snap) {
             }
         }
     }
-
 });
