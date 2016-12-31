@@ -255,6 +255,7 @@ database.ref().on("value", function(snap) {
         setTimeout(resetTurn, 4000);
 
         var play1Wins = function(){
+          wins++;
           $("#rps2").css("padding-top", "10px");
           $("#middleMessage").html("<h1>" + snap.child("Players/1").val().name + " wins!</h1>");
           $("#leftBox").css("border", "5px solid yellow");
@@ -273,6 +274,7 @@ database.ref().on("value", function(snap) {
         };
 
         var play2Wins = function(){
+          wins++;
           $("#middleMessage").html("<h1>" + snap.child("Players/2").val().name + " wins!</h1>");
           $("#rps1").css("padding-top", "10px");
           $("#rightBox").css("border", "5px solid yellow");
@@ -296,22 +298,19 @@ database.ref().on("value", function(snap) {
             $("#rps2").show();
 
             if (snap.child("Players/1").val().userChoice == "Rock" && snap.child("Players/2").val().userChoice == "Scissors") {
-                wins++;
                 play1Wins();
             } else if (snap.child("Players/1").val().userChoice == "Rock" && snap.child("Players/2").val().userChoice == "Paper") {
                 play1Loses();
             } else if (snap.child("Players/1").val().userChoice == "Paper" && snap.child("Players/2").val().userChoice == "Scissors") {
                 play1Loses();
             } else if (snap.child("Players/1").val().userChoice == "Paper" && snap.child("Players/2").val().userChoice == "Rock") {
-                wins++;
                 play1Wins();
             } else if (snap.child("Players/1").val().userChoice == "Scissors" && snap.child("Players/2").val().userChoice == "Paper") {
-                wins++;
                 play1Wins();
             } else if (snap.child("Players/1").val().userChoice == "Scissors" && snap.child("Players/2").val().userChoice == "Rock") {
                 play1Loses();
             }
-            //player 2 game logic
+        //player 2 game logic
         } else if (playNum === 2) {
 
           $("#rps1").show();
@@ -319,17 +318,14 @@ database.ref().on("value", function(snap) {
             if (snap.child("Players/1").val().userChoice == "Rock" && snap.child("Players/2").val().userChoice == "Scissors") {
                 play2Loses();
             } else if (snap.child("Players/1").val().userChoice == "Rock" && snap.child("Players/2").val().userChoice == "Paper") {
-                wins++;
                 play2Wins();
             } else if (snap.child("Players/1").val().userChoice == "Paper" && snap.child("Players/2").val().userChoice == "Scissors") {
-                wins++;
                 play2Wins();
             } else if (snap.child("Players/1").val().userChoice == "Paper" && snap.child("Players/2").val().userChoice == "Rock") {
                 play2Loses();
             } else if (snap.child("Players/1").val().userChoice == "Scissors" && snap.child("Players/2").val().userChoice == "Paper") {
                 play2Loses();
             } else if (snap.child("Players/1").val().userChoice == "Scissors" && snap.child("Players/2").val().userChoice == "Rock") {
-                wins++;
                 play2Wins();
             }
         }
